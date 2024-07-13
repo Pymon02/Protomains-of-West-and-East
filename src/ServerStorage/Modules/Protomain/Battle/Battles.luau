@@ -1,4 +1,4 @@
-ocal ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local CreateBattleEvent = require(script.Parent.CreateBattleEvent)
 local Typing = require(ReplicatedStorage.Modules.Protomains.Typing)
