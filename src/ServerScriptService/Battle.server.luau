@@ -1,5 +1,3 @@
---!strict
-
 local Replicated = game:GetService("ReplicatedStorage")
 local folder = game.Workspace.Creatures
 local check = false

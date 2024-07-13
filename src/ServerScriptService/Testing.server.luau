@@ -1,5 +1,3 @@
---!strict
-
 task.wait(5)
 local ServerStorage = game:GetService("ServerStorage")
 local Protomain = require(ServerStorage.Modules.Protomain)

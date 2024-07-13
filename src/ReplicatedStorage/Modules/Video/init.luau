@@ -1,5 +1,3 @@
---!strict
-
 local Video = {}
 
 function Video.new(size)

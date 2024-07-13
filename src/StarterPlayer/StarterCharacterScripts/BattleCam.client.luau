@@ -1,7 +1,5 @@
 --!strict
 
---!strict
-
 local Replicated = game:GetService("ReplicatedStorage")
 local Battle = Replicated.Events.GUIBattleStart
 local cam = game.Workspace.CurrentCamera

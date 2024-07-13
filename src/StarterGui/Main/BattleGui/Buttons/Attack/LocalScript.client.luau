@@ -1,7 +1,5 @@
 --!strict
 
---!strict
-
 
 local button = script.Parent
 local Folder = button.Parent

@@ -1,5 +1,3 @@
---!strict
-
 function getVideoFrames(name: string)
 	local frames = {}
 	local cursor = nil

@@ -1,5 +1,3 @@
---!strict
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local CreateBattleEvent = require(script.Battle.CreateBattleEvent)

@@ -1,5 +1,3 @@
---!strict
-
 local Wander = {}
 
 local TweenService = game:GetService("TweenService")

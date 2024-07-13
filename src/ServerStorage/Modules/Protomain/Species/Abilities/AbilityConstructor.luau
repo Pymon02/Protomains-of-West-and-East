@@ -1,5 +1,3 @@
---!strict
-
 local Ability = {}
 
 local Modules = game:GetService("ReplicatedStorage").Modules

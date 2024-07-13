@@ -1,5 +1,3 @@
---!strict
-
 local ServerStorage = game:GetService("ServerStorage")
 
 local Types = require(ServerStorage.Modules.Protomain.Battle.Types)

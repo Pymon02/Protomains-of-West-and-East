@@ -1,5 +1,3 @@
---!strict
-
 local GUI = script.Parent
 
 GUI.Position = UDim2.new(-0.5, 0, 0.671, 0)

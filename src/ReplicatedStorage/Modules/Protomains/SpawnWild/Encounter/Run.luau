@@ -1,5 +1,3 @@
---!strict
-
 local player = game.Players.LocalPlayer
 local character = player.Character
 local camera = game.Workspace.CurrentCamera

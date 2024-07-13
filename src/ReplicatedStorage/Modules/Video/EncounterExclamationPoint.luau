@@ -1,5 +1,3 @@
---!strict
-
 local Video = require(script.Parent)
 
 local EncounterExclamationPoint = {}

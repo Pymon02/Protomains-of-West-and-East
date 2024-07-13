@@ -1,5 +1,3 @@
---!strict
-
 
 wait(5)
 local UIS = game:GetService("UserInputService")

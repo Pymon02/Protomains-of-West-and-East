@@ -1,5 +1,3 @@
---!strict
-
 local spawnedPerPlayer = {}
 local timeFromLastSpawn = {}
 

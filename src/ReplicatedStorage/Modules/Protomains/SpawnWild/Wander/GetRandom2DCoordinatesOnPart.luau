@@ -1,5 +1,3 @@
---!strict
-
 local RayCast2DSurface = require(game:GetService("ReplicatedStorage").Modules.Utils.RayCast2DSurface)
 
 function getRandom2DCoordinatesOnPart(part: Part)

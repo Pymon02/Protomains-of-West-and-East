@@ -1,5 +1,3 @@
---!strict
-
 task.wait(1)
 
 local encounterAreas = workspace:WaitForChild("EncounterAreas"):GetChildren()

@@ -1,7 +1,5 @@
 --!strict
 
---!strict
-
 wait(3)
 local Replicated = game:GetService("ReplicatedStorage")
 local currentHealth = Replicated.Values.CurrentHealth

@@ -1,7 +1,5 @@
 --!strict
 
---!strict
-
 wait(2)
 local Replicated = game:GetService("ReplicatedStorage")
 local module = require(Replicated.ProtoInfo)

@@ -1,7 +1,5 @@
 --!strict
 
---!strict
-
 
 --This an script of ROBLOX Studio. Do not delete it, this script secures your game from exploiters.
 

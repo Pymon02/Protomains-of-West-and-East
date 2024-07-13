@@ -1,5 +1,3 @@
---!strict
-
 local Species = {}
 
 local Modules = game:GetService("ReplicatedStorage").Modules

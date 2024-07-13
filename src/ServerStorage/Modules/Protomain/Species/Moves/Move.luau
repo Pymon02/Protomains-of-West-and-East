@@ -1,5 +1,3 @@
---!strict
-
 local ServerStorage = game:GetService("ServerStorage")
 local ReplicatedModules = game:GetService("ReplicatedStorage").Modules
 
