@@ -14,10 +14,3 @@ function Ability.new(array)
 end
 
 return Ability
-
--- for _, protomain in self.allProtomains do
---     for _, ability in protomain.abilities do
---         ability.battleStart(protomain)
---     end
--- end
-

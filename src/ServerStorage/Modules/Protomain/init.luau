@@ -51,6 +51,9 @@ local STAGE = {
 --local ExperienceGainDivider = 20
 --local WildExperienceMult = 1.5
 
+--[[
+    Stores protomain functions and events that relate to the Protomain's stats, leveling, and experience.
+]]
 local Protomain = {}
 
 function Protomain.new(
@@ -171,9 +174,8 @@ Protomain.getExperience = {
 	totalToLevel = function(protomain: Typing.Protomain): number
 		return math.round(protomain.level ^ EXPERIENCE.CLIMB_RATE) + EXPERIENCE.BASE
 	end,
-
-	toLevel = function(protomain: Typing.Protomain)
-		return Protomain.getExperience.totalToLevel(protomain) - protomain._experience
+	toLevel = function(protomain: Typing.Protomain): number
+		return Protomain.getExperience.totalToLevel(protomain) :: number - protomain._experience
 	end,
 }
 

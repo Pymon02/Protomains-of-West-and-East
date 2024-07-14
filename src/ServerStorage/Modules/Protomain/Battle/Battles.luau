@@ -31,7 +31,14 @@ function Battle.start(allies: { Typing.Protomain }, opponents: { Typing.Protomai
 
 	for _, protomain in self.allProtomains do
 		for _, ability in protomain.abilities do
-			table.insert(self.eventsRunning, ability.battleStart(protomain))
+			local events = ability.battleStart(protomain)
+			if type(events) == "table" then
+				for _, event in events do
+					table.insert(self.eventsRunning, event)
+				end
+			else
+				table.insert(self.eventsRunning, ability.battleStart(protomain))
+			end
 		end
 	end
 

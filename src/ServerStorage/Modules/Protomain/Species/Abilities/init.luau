@@ -61,31 +61,31 @@ Abilties.MagicPower = Ability.new({
 	description = "The users Mystic type moves are boosted by 50%.",
 })
 
---Ability.new{
---	name='Leg Dominace',
---	beforeEvent=function(event: Event.AbilityEvent)
---		local isDamageMove = event.name == 'damageMove'
---		local ownerIsAttacking = event.abilityOwner == event.parameters.attacker
---		local isLegMove = event.abilityOwner.move.bodyPart == 'legs'
+Abilties.LegDominace = Ability.new({
+	battleStart = function(abilityOwner: Typing.Protomain)
+		return Move.events.dealDamagingMove.connectBefore(
+			function(attacker: Typing.Protomain, _defender: Typing.Protomain, mult: number?)
+				if attacker == abilityOwner and attacker.move.bodyPart == "legs" then
+					print(`Leg Dominace increased {abilityOwner.evolution.name}'s attack!`)
+					return { [3] = Utils.oneIfNil(mult) + 0.50 }
+				end
+				return {}
+			end
+		)
+	end,
+	description = "Moves that involve the user using their legs to attack have a boosted power of 50%.",
+})
 
---		if isDamageMove and ownerIsAttacking and isLegMove then
---			print(`Leg Dominace increased {event.abilityOwner.evolution.name}'s attack!`)
---			return {damageMult=Utils.oneIfNil(event.parameters.damageMult) + 0.5}
---		end
---	end,
---	description="Moves that involve the user using their legs to attack have a boosted power of 50%."
---}
+-- Ability.new{
+-- 	name='Static Fuzz',
 
-----Ability.new{
-----	name='Static Fuzz',
-
-----	func=function(input: Ability.AbilityFunctionInput)
-----		if input.move.bodyPart == 'legs' then
-----			input.move.damageBoost += 0.5 -- TODO STATUS EFFECTS
-----		end
-----	end,
-----	description="When the user is hit by a move that makes physicalContact, the foe has a 50% of getting paralyzed."
-----}
+-- 	func=function(input: Ability.AbilityFunctionInput)
+-- 		if input.move.bodyPart == 'legs' then
+-- 			input.move.damageBoost += 0.5 -- TODO STATUS EFFECTS
+-- 		end
+-- 	end,
+-- 	description="When the user is hit by a move that makes physicalContact, the foe has a 50% of getting paralyzed."
+-- }
 
 --Ability.new{
 --	name='Sharp Claws',

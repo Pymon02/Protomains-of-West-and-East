@@ -3,7 +3,4 @@
         "editor.defaultFormatter": "JohnnyMorganz.stylua"
     },
     "selene.run": "onSave",
-    "robloxLsp.diagnostics.disable": [
-        1019
-    ]
 }
