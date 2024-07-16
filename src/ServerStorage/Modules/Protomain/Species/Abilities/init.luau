@@ -7,6 +7,12 @@ local Typing = require(ReplicatedStorage.Modules.Protomains.Typing)
 local Ability = require(script.AbilityConstructor)
 local Protomain = require(script.Parent.Parent)
 local Utils = require(ReplicatedStorage.Modules.Utils.Utils)
+local StatusEffect = require(script.Parent.StatusEffects.StatusEffect)
+
+local BOOST = {
+	REGULAR = 0.50,
+	EXTRA = 0.65,
+}
 
 local Abilties = {}
 
@@ -35,7 +41,9 @@ Abilties.Timid = Ability.new({
 			),
 		}
 	end,
-	description = "When hit by a super effective move, the user's attack goes down by 1 stage but its speed rises by 2 stages.",
+	-- Balanced( chance of super effective 0.31 * 0.50) = 0.31 * 0.50 = 0.155
+	balance = 5,
+	description = "When hit by a super effective move, the user's attack goes down by 1 stage but its speed rises by 2 stages.", -- only active once
 })
 
 Abilties.MagicPower = Ability.new({
@@ -43,22 +51,15 @@ Abilties.MagicPower = Ability.new({
 		return Move.events.dealDamagingMove.connectBefore(
 			function(attacker: Typing.Protomain, _defender: Typing.Protomain, mult: number?)
 				if attacker == abilityOwner and attacker.move.type_ == Types.Mystic then
-					return { [3] = Utils.oneIfNil(mult) + 0.50 }
+					print(`Magic Power increased {abilityOwner.evolution.name}'s attack!`)
+					return { [3] = Utils.oneIfNil(mult) + BOOST.REGULAR }
 				end
 				return {}
 			end
 		)
 	end,
-	-- beforeEvent=function(event: Event.AbilityEvent)
-	-- 	local isDamageMove = event.name == 'damageMove'
-	-- 	local ownerIsAttacking = event.abilityOwner == event.parameters.attacker
-
-	-- 	if isDamageMove and ownerIsAttacking and event.parameters.attacker.move.type_.name == 'Mystic' then
-	-- 		print(`Magic Power increased {event.abilityOwner.evolution.name}'s attack!`)
-	-- 		return {damageMult=Utils.oneIfNil(event.parameters.damageMult) + 0.5}
-	-- 	end
-	-- end,
-	description = "The users Mystic type moves are boosted by 50%.",
+	-- Balanced( 1/types * 0.50) = 1/22 * 0.50 = 0.0227
+	description = "The users mystic type moves have increased damage.",
 })
 
 Abilties.LegDominace = Ability.new({
@@ -66,47 +67,66 @@ Abilties.LegDominace = Ability.new({
 		return Move.events.dealDamagingMove.connectBefore(
 			function(attacker: Typing.Protomain, _defender: Typing.Protomain, mult: number?)
 				if attacker == abilityOwner and attacker.move.bodyPart == "legs" then
-					print(`Leg Dominace increased {abilityOwner.evolution.name}'s attack!`)
-					return { [3] = Utils.oneIfNil(mult) + 0.50 }
+					print(`{abilityOwner.evolution.name}'s leg dominace boosted the attack!`)
+					return { [3] = Utils.oneIfNil(mult) + BOOST.REGULAR }
 				end
 				return {}
 			end
 		)
 	end,
-	description = "Moves that involve the user using their legs to attack have a boosted power of 50%.",
+	-- Balanced( 1/types * 0.50) = 1/22 * 0.50 = 0.0227
+	description = "Moves that involve the user using their legs have increased damage.",
 })
 
--- Ability.new{
--- 	name='Static Fuzz',
+Abilties.StaticFuzz = Ability.new({
+	battleStart = function(abilityOwner: Typing.Protomain)
+		return Move.events.useMoveFunction.connect(
+			function(attacker: Typing.Protomain, defender: Typing.Protomain, _mult: number?)
+				if defender == abilityOwner and attacker.move.physicalContact then
+					if math.random() < 0.25 then
+						print(`{abilityOwner.evolution.name}'s static fuzz inflicted paralysis!`)
+						StatusEffect.inflictStatusEffect("paralyzed", attacker)
+					end
+				end
+				return {}
+			end
+		)
+	end,
+	description = "When the user is hit by a move that makes physicalContact, the foe has a 25% chance of getting paralyzed.",
+})
 
--- 	func=function(input: Ability.AbilityFunctionInput)
--- 		if input.move.bodyPart == 'legs' then
--- 			input.move.damageBoost += 0.5 -- TODO STATUS EFFECTS
--- 		end
--- 	end,
--- 	description="When the user is hit by a move that makes physicalContact, the foe has a 50% of getting paralyzed."
--- }
+Abilties.SharpClaws = Ability.new({
+	battleStart = function(abilityOwner: Typing.Protomain)
+		return Move.events.dealDamagingMove.connectBefore(
+			function(attacker: Typing.Protomain, _defender: Typing.Protomain, mult: number?)
+				if attacker == abilityOwner and attacker.move.bodyPart == "claws" then
+					print(`{abilityOwner.evolution.name}'s sharp claws boosted the attack!`)
+					return { [3] = Utils.oneIfNil(mult) + DEFAULT_BOOST }
+				end
+				return {}
+			end
+		)
+	end,
+	description = "Moves that involve the user using its claws/nails to attack has a boosted power of 50% percent.",
+})
 
---Ability.new{
---	name='Sharp Claws',
---	func=function(input: Ability.AbilityFunctionInput)
---		if input.move.bodyPart == 'claws' or input.move.bodyPart == 'nails' then
---			input.move.damageBoost += 0.5
---		end
---	end,
---	description="Moves that involve the user using its claws/nails to attack has a boosted power of 50% percent."
---}
-
---Ability.new{
---	name='Raging Flame',
---	func=function(input: Ability.AbilityFunctionInput)
---		if (Protomain.getHealth(input.user) < Protomain.getMaxHealth(input.user) / 3)
---		and input.move.type_.name == 'Fire' then
---			input.move.damageBoost += 0.6
---		end
---	end,
---	description="Moves that involve the user using its claws/nails to attack has a boosted power of 50% percent."
---}
+Abilties.RagingFlame = Ability.new({
+	battleStart = function(abilityOwner: Typing.Protomain)
+		return Move.events.dealDamagingMove.connectBefore(
+			function(attacker: Typing.Protomain, _defender: Typing.Protomain, mult: number?)
+				local less_than_third_health = (
+					Protomain.get.health(attacker) < Protomain.getMax.health(attacker) * (1 / 3)
+				)
+				if less_than_third_health and attacker == abilityOwner and abilityOwner.move.type_.name == "Fire" then
+					print(`{abilityOwner.evolution.name}'s raging flame boosted the attack!`)
+					return { [3] = Utils.oneIfNil(mult) + BIG_BOOST }
+				end
+				return {}
+			end
+		)
+	end,
+	description = "When the user's health is low and they use a fire type move, it will have a boosted power.",
+})
 
 ----Squirm
 ---- Effect: When the user is trapped it will be immediately set free.
